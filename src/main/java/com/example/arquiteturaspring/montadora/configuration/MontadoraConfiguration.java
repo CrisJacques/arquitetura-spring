@@ -4,6 +4,7 @@ import com.example.arquiteturaspring.montadora.Motor;
 import com.example.arquiteturaspring.montadora.TipoMotor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 /**
  * Essa classe conterá alguns Beans que serão configurados e precisam ser registrados.
@@ -12,12 +13,35 @@ import org.springframework.context.annotation.Configuration;
 public class MontadoraConfiguration {
 
     /**
-     * Ao iniciar a aplicação, o Spring irá instanciar esse Bean e vai registrar no Container para que
-     * possa ser utilizado. Registramos como Beans componentes complexos que precisaremos utilizar ao longo
-     * de toda a aplicação.
+     * Ao iniciar a aplicação, os objetos instanciados pelos métodos marcados com @Bean serão registrados como
+     * Beans no container do Spring, ficando disponíveis para uso em qualquer lugar da aplicação, podendo ser
+     * injetados como dependência sem precisar chamar new(). A injeção poderá ser feita pelo construtor da classe
+     * ou usando a anotação @Autowired. Tudo isso só irá funcionar se essa classe tiver a anotação @Configuration.
+     *
+     * Registramos como Beans componentes complexos que precisaremos utilizar ao longo de toda a aplicação.
+     *
+     * O nome do método que cria o objeto será o nome do Bean. Dessa forma, abaixo estão sendo criados 3 Beans:
+     * motorAspirado, motorEletrico e motorTurbo.
+     *
+     * Caso se deseje que o Bean tenha um nome diferente do nome do método, basta fazer @Bean(name = "nomeDesejado")
+     *
+     * Porém, no momento de injetar a dependência, o Spring não saberá qual desses Beans injetar, porque os 3
+     * são do mesmo tipo (Motor). Dessa forma, será necessário utilizar Qualifiers para indicar ao Spring qual
+     * deles deve ser injetado.
+     *
+     * Para isso, basta adicionar a anotação @Qualifier, indicando o nome do Bean que deve ser injetado. Por exemplo:
+     * @Autowired
+     * @Qualifier("motorEletrico")
+     * private Motor motor;
+     *
+     * Também é possível definir um Bean padrão para ser usado quando não for usada a anotação @Qualifier, para isso
+     * basta usar a anotação @Primary no Bean (exemplo abaixo). Isso só é necessário quando existe mais de um Bean de
+     * mesmo tipo.
      */
     @Bean
-    public Motor motor() {
+    @Primary // Com essa anotação, este Bean será sempre o escolhido para ser injetado dentre os de mesmo tipo,
+    // quando não for usada a anotação @Qualifier na hora de injetar a dependência.
+    public Motor motorAspirado() {
         var motor = new Motor();
 
         motor.setCavalos(120);
@@ -25,6 +49,32 @@ public class MontadoraConfiguration {
         motor.setModelo("XPTO-0");
         motor.setLitragem(2.0);
         motor.setTipo(TipoMotor.ASPIRADO);
+
+        return motor;
+    }
+
+    @Bean
+    public Motor motorEletrico() {
+        var motor = new Motor();
+
+        motor.setCavalos(110);
+        motor.setCilindros(3);
+        motor.setModelo("TH-40");
+        motor.setLitragem(1.4);
+        motor.setTipo(TipoMotor.ELETRICO);
+
+        return motor;
+    }
+
+    @Bean
+    public Motor motorTurbo() {
+        var motor = new Motor();
+
+        motor.setCavalos(180);
+        motor.setCilindros(3);
+        motor.setModelo("XPTO-01");
+        motor.setLitragem(1.5);
+        motor.setTipo(TipoMotor.TURBO);
 
         return motor;
     }
