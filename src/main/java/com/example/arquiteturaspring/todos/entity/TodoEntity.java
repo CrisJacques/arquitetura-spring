@@ -1,4 +1,4 @@
-package com.example.arquiteturaspring.todos;
+package com.example.arquiteturaspring.todos.entity;
 
 import jakarta.persistence.*;
 
