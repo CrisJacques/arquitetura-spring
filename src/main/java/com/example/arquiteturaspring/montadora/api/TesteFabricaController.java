@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class TesteFabricaController {
 
     @Autowired
-    @Qualifier("motorTurbo")
+    //@Qualifier("motorTurbo") // Se um dos Beans de mesmo tipo for anotado com @Primary na classe @Configuration, ele
+    // será sempre o escolhido para ser injetado quando não for usado @Qualifier, tornando desnecessário indicar
+    // explicitamente o nome do Bean a ser injetado.
     private Motor motor;
 
     @PostMapping

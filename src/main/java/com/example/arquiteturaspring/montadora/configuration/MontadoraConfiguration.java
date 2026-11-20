@@ -4,6 +4,7 @@ import com.example.arquiteturaspring.montadora.Motor;
 import com.example.arquiteturaspring.montadora.TipoMotor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 /**
  * Essa classe conterá alguns Beans que serão configurados e precisam ser registrados.
@@ -32,8 +33,14 @@ public class MontadoraConfiguration {
      * @Autowired
      * @Qualifier("motorEletrico")
      * private Motor motor;
+     *
+     * Também é possível definir um Bean padrão para ser usado quando não for usada a anotação @Qualifier, para isso
+     * basta usar a anotação @Primary no Bean (exemplo abaixo). Isso só é necessário quando existe mais de um Bean de
+     * mesmo tipo.
      */
     @Bean
+    @Primary // Com essa anotação, este Bean será sempre o escolhido para ser injetado dentre os de mesmo tipo,
+    // quando não for usada a anotação @Qualifier na hora de injetar a dependência.
     public Motor motorAspirado() {
         var motor = new Motor();
 
