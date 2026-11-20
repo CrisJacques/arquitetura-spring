@@ -1,8 +1,8 @@
 package com.example.arquiteturaspring.todos.service;
 
-import com.example.arquiteturaspring.todos.service.exception.ObjectNotFoundException;
 import com.example.arquiteturaspring.todos.entity.TodoEntity;
 import com.example.arquiteturaspring.todos.repository.TodoRepository;
+import com.example.arquiteturaspring.todos.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
