@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Aqui é obrigatório usar @RestController (diferente dos Services, em que podemos usar @Service ou @Component).
+ * Essa obrigatoriedade é porque a anotação @RestController reúne uma série de outras anotações, incluindo @Component.
+ */
 @RestController
 @RequestMapping("todos")// A / é opcional no RequestMapping (ou seja, tanto faz "/todos" ou "todos")
 public class TodoController {
