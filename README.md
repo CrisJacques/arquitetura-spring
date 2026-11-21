@@ -27,6 +27,17 @@ O pacote `montadora` demonstra como o Spring gerencia beans e resolve dependênc
 - Registro de beans com `@Configuration` e `@Bean`
 - Uso de componentes e injeção de dependências
 
+### Formas de injeção de dependências
+
+A classe `injdependencia/BeanGerenciado.java` reúne as três formas suportadas pelo Spring para injetar o bean `TodoValidator` em `BeanGerenciado`:
+
+| Forma | Implementação | Característica |
+|---|---|---|
+| Via propriedade | Campo anotado com `@Autowired` | Forma direta, mas não deixa explícitas obrigatoriedade ou opcionalidade |
+| Via setter | Método `setValidator(...)` anotado com `@Autowired` | Permite substituir a dependência em tempo de execução e sugere opcionalidade |
+| Via construtor | Construtor anotado com `@Autowired` | Forma mais recomendada pelo Spring; demonstra uma dependência obrigatória e facilita testes |
+
+
 ### API REST de tarefas
 
 O módulo `todos` demonstra uma API REST organizada em camadas:
@@ -134,6 +145,7 @@ src/
 ├── main/
 │   ├── java/com/example/arquiteturaspring/
 │   │   ├── ArquiteturaSpringApplication.java
+│   │   ├── injdependencia/  # Exemplos das três formas de injeção de dependências
 │   │   ├── montadora/       # Beans, qualifiers e exemplos de injeção
 │   │   └── todos/           # API REST em arquitetura em camadas
 │   └── resources/
@@ -160,7 +172,6 @@ No Windows:
 
 Este repositório está em desenvolvimento ativo. Novos exemplos e melhorias poderão incluir:
 
-- Mais cenários de injeção de dependências
 - Profiles e configurações por ambiente
 - Validações com Bean Validation
 - Testes de integração e testes de API
