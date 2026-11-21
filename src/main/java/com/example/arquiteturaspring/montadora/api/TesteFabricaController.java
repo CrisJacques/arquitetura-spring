@@ -4,8 +4,6 @@ import com.example.arquiteturaspring.montadora.CarroStatus;
 import com.example.arquiteturaspring.montadora.Chave;
 import com.example.arquiteturaspring.montadora.HondaHRV;
 import com.example.arquiteturaspring.montadora.Motor;
-import com.example.arquiteturaspring.montadora.api.annotation.Aspirado;
-import com.example.arquiteturaspring.montadora.api.annotation.Eletrico;
 import com.example.arquiteturaspring.montadora.api.annotation.Turbo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
