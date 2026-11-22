@@ -1,5 +1,55 @@
 # Anotações gerais - arquitetura do Spring
 
+## Customização da inicialização da aplicação
+
+Outra forma de inicializar a aplicação (no lugar de `SpringApplication.run(ProdutosApiApplication.class, args);`) é usar o `SpringApplicationBuilder`, que permite uma série de configurações adicionais:
+
+```java
+SpringApplicationBuilder builder = new SpringApplicationBuilder(ProdutosApiApplication.class);
+
+// Fazendo dessa forma, é possível fazer algumas customizações na inicialização, por exemplo:
+builder.bannerMode(Banner.Mode.OFF) // desligando o banner do Spring na inicialização
+
+// Além disso, é possível selecionar o profile (ou seja, o ambiente) em que a aplicação irá rodar, por exemplo:
+builder.profiles("producao");
+
+// E no final, é só mandar rodar
+builder.run(args);
+
+// Depois que a aplicação inicializa também é possível fazer outras ações, por exemplo obter um Bean a partir
+// do ApplicationContext
+ConfigurableApplicationContext applicationContext = builder.context();
+var produtoRepository = applicationContext.getBean("produtoRepository");
+```
+
+## Inicialização Lazy dos Beans
+
+- Quando a aplicação sobe, todos os Beans já são instanciados por padrão e registrados no container de injeção de
+  dependências.
+- Caso seja desejado que os Beans sejam instanciados apenas quando necessário, utilizamos a anotação `@Lazy`, logo antes
+  da anotação `@Component` (ou das anotações especializadas como `@Service` por exemplo).
+- O padrão é que a inicialização dos Beans não seja Lazy, o recomendado é usar o `@Lazy` apenas em casos mais
+  específicos.
+- Também é possível configurar para que todos os Beans tenham inicialização Lazy, sem precisar colocar `@Lazy` em todos
+  eles. Isso pode agilizar a inicialização da aplicação, mas se ocorrer erro na instanciação de qualquer Bean, isso só
+  será descoberto em runtime. 
+- Para fazer esta configuração, é possível usar o `SpringApplicationBuilder`, no `main` da aplicação:
+```java
+SpringApplicationBuilder builder = new SpringApplicationBuilder(Application.class);
+builder.lazyInicialization(true);
+```
+- Outra forma é configurar isso no `application.properties`:
+```java 
+spring.main.lazy-initialization=true
+```
+
+### Observações
+- Caso seja desejado que a maioria dos Beans tenha inicialização Lazy, é recomendado configurar o padrão como Lazy, 
+conforme mostrado acima, e nas classes que não devem ser Lazy colocar `@Lazy(false)`;
+- Caso seja desejado que a maioria dos Beans não tenha inicialização Lazy (o padrão do Spring), não é preciso fazer 
+nenhuma configuração adicional, basta colocar `@Lazy(true)` nos Beans em que se deseja inicialização Lazy.
+
+
 ## Componentes do Spring
 
 `@RestController`, `@Service` e `@Repository` também são componentes, mas são anotações de especialização.
@@ -22,7 +72,7 @@ Os exemplos abaixo são voltados a aplicações web e não representam todas as 
 - **`session`**: o Bean existe enquanto durar a sessão do usuário. Esse escopo é útil para guardar dados do usuário logado naquele momento, mantendo-os associados ao usuário.
 - **`application`**: semelhante ao `session`, mas válido para todos os usuários. Não é um `singleton`, pois o `singleton` é utilizado em qualquer tipo de projeto, enquanto o escopo `application` é específico para aplicações web.
 
-## Observações
+### Observações
 
 - O escopo `request` não guarda estado, mas os escopos `session` e `application` guardam.
 - Não é recomendado guardar estado em Beans ou Components com escopo `singleton`.
@@ -34,3 +84,4 @@ Os exemplos abaixo são voltados a aplicações web e não representam todas as 
   | `request` | `WebApplicationContext.SCOPE_REQUEST` |
   | `session` | `WebApplicationContext.SCOPE_SESSION` |
   | `application` | `WebApplicationContext.SCOPE_APPLICATION` |
+
