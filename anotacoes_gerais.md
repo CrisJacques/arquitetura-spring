@@ -85,3 +85,45 @@ Os exemplos abaixo são voltados a aplicações web e não representam todas as 
   | `session` | `WebApplicationContext.SCOPE_SESSION` |
   | `application` | `WebApplicationContext.SCOPE_APPLICATION` |
 
+## Arquivo application.properties
+
+- Neste arquivo, é possível externalizar várias configurações da aplicação, sem precisar alterá-las programaticamente.
+- Além das propriedades do Spring e dos seus starters, é possível criar propriedades customizadas para uso pela 
+aplicação, por exemplo:
+```java
+app.config.variavel=X
+```
+- Exemplos de starters do Spring (ver `pom.xml`):
+  - spring-boot-starter-parent
+  - spring-boot-starter-data-jpa
+  - spring-boot-starter-webmvc
+- Na documentação do Spring (docs.spring.io) são mostradas todas as configurações possíveis, na seção Common Application
+Properties.
+- Exemplo de arquivo `application.properties`:
+```java
+spring.application.name=arquiteturaspring
+spring.jpa.show_sql=true
+spring.main.lazy-initialization=false
+app.config.variavel=X
+```
+
+## Arquivo application.yml
+
+- Tem a mesma finalidade do `application.properties`, mas possui uma sintaxe mais moderna, fácil de ler e é a versão
+mais usada nas empresas atualmente. Possui estrutura hierárquica de propriedades, facilitando o entendimento.
+- Exemplo de arquivo `application.yml`:
+
+```java
+spring:
+  application:
+    name: arquitetura-spring
+  jpa:
+    show_sql: true
+  main:
+    lazy-initialization: true
+
+app:
+  config:
+    variavel: X
+```
+- **É preciso escolher entre um arquivo e outro, não pode ter os dois arquivos no projeto.**  
