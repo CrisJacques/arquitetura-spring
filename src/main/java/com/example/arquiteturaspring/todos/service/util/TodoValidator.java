@@ -6,11 +6,6 @@ import com.example.arquiteturaspring.todos.service.exception.TodoAlreadyExistsEx
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-/**
- * @RestController, @Service e @Repository também são Components, mas essas anotações são especializações.
- * Quando queremos registrar um componente que não é RestController, nem Service, nem Repository, usamos a anotação
- * genérica @Component.
- */
 @Component
 public class TodoValidator {
 
