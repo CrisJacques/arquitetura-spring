@@ -11,3 +11,10 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+app:
+  montadora:
+    motor-padrao: 130
+  config:
+    variavel: X
+    valor1: 500
