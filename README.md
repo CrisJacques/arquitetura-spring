@@ -1,6 +1,6 @@
 # Arquitetura Spring
 
-> **Projeto em construção.** Esta aplicação é um laboratório de exemplos que demonstra diferentes aspectos da arquitetura e dos recursos do Spring Framework.
+> Esta aplicação é um laboratório de exemplos que demonstra diferentes aspectos da arquitetura e dos recursos do Spring Framework.
 
 O objetivo é estudar conceitos de forma prática por meio de exemplos didáticos e independentes, incluindo injeção de dependências, registro e resolução de beans, arquitetura em camadas, persistência com JPA e criação de APIs REST.
 
@@ -15,6 +15,26 @@ O objetivo é estudar conceitos de forma prática por meio de exemplos didático
 - **Maven**
 - **JUnit 5**
 
+## Estrutura principal
+
+```text
+src/
+├── main/
+│   ├── java/com/example/arquiteturaspring/
+│   │   ├── ArquiteturaSpringApplication.java
+│   │   ├── configproperties/ # Leitura agrupada com @ConfigurationProperties
+│   │   ├── injdependencia/   # As três formas de injeção de dependências
+│   │   ├── leituraproperties/ # Exemplo de leitura com @Value
+│   │   ├── montadora/        # Beans, qualifiers e exemplos de injeção
+│   │   └── todos/            # API REST em arquitetura em camadas
+│   └── resources/
+│       └── application.yaml
+└── test/
+    └── java/com/example/arquiteturaspring/
+```
+
+As decisões e conceitos estudados também estão registrados em `anotacoes_gerais.md`.
+
 ## Exemplos disponíveis
 
 ### Montadora e resolução de dependências
@@ -26,6 +46,27 @@ O pacote `montadora` demonstra como o Spring gerencia beans e resolve dependênc
 - Qualifier personalizado por meio de anotações customizadas
 - Registro de beans com `@Configuration` e `@Bean`
 - Uso de componentes e injeção de dependências
+- Leitura de propriedades externas por meio de `@Value`
+
+### Configuração externalizada
+
+O projeto utiliza `application.yaml` para externalizar configurações e inclui dois exemplos de leitura dessas propriedades:
+
+- `@Value("${app.config.variavel}")` para ler uma propriedade específica em uma variável
+- `@ConfigurationProperties(prefix = "app.config")` para agrupar propriedades relacionadas em uma classe tipada
+
+Na configuração atual, `app.montadora.motor-padrao` define a potência padrão do motor aspirado, enquanto `app.config.variavel` e `app.config.valor1` demonstram o uso das duas formas de leitura.
+
+```yaml
+app:
+  montadora:
+    motor-padrao: 130
+  config:
+    variavel: X
+    valor1: 500
+```
+
+A classe `configproperties/AppProperties.java` representa o grupo `app.config` e pode ser injetada em qualquer componente da aplicação.
 
 ### Formas de injeção de dependências
 
@@ -138,22 +179,6 @@ curl -X POST http://localhost:8080/todos \
   -d "{\"descricao\":\"Estudar arquitetura Spring\",\"concluido\":false}"
 ```
 
-## Estrutura principal
-
-```text
-src/
-├── main/
-│   ├── java/com/example/arquiteturaspring/
-│   │   ├── ArquiteturaSpringApplication.java
-│   │   ├── injdependencia/  # Exemplos das três formas de injeção de dependências
-│   │   ├── montadora/       # Beans, qualifiers e exemplos de injeção
-│   │   └── todos/           # API REST em arquitetura em camadas
-│   └── resources/
-│       └── application.yaml
-└── test/
-    └── java/com/example/arquiteturaspring/
-```
-
 ## Testes
 
 Execute a suíte de testes com:
@@ -168,12 +193,3 @@ No Windows:
 .\mvnw.cmd test
 ```
 
-## Status do projeto
-
-Este repositório está em desenvolvimento ativo. Novos exemplos e melhorias poderão incluir:
-
-- Profiles e configurações por ambiente
-- Validações com Bean Validation
-- Testes de integração e testes de API
-- Documentação interativa de endpoints
-- Exemplos adicionais de arquitetura e organização de aplicações Spring
