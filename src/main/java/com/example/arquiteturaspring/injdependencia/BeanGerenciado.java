@@ -1,5 +1,6 @@
 package com.example.arquiteturaspring.injdependencia;
 
+import com.example.arquiteturaspring.configproperties.AppProperties;
 import com.example.arquiteturaspring.todos.entity.TodoEntity;
 import com.example.arquiteturaspring.todos.service.util.TodoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,18 @@ public class BeanGerenciado {
     @Autowired
     public BeanGerenciado(TodoValidator validator) {
         this.validator = validator;
+    }
+
+    //-------------------------------------------------------------------------------------
+    /**
+     * A classe AppProperties possui os valores das propriedades que estão dentro de app.config do application.yml
+     */
+    @Autowired
+    private AppProperties properties;
+
+    public void imprimirVariaveis() {
+        System.out.println(properties.getVariavel());
+        System.out.println(properties.getValor1());
     }
 
 }
